@@ -9,7 +9,7 @@
 import UIKit
 
 
-class RMCharacterListView: UIView {
+final class RMCharacterListView: UIView {
     
     private let viewModel = RMCharacterListViewViewModel()
     
@@ -28,6 +28,7 @@ class RMCharacterListView: UIView {
         style()
         layout()
         spinner.startAnimating()
+        viewModel.delegate = self
         viewModel.fetchCharacters()
         setupCollectionView()
     }
@@ -72,14 +73,26 @@ extension RMCharacterListView {
         collectionView.dataSource = viewModel
         collectionView.delegate = viewModel
         
-        DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
-            self.spinner.stopAnimating()
-            
-            self.collectionView.isHidden = false
-            
-            UIView.animate(withDuration: 0.5) {
-                self.collectionView.alpha = 1
-            }
-        })
+//        DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
+//            self.spinner.stopAnimating()
+//
+//            self.collectionView.isHidden = false
+//
+//            UIView.animate(withDuration: 0.5) {
+//                self.collectionView.alpha = 1
+//            }
+//        })
+    }
+}
+
+extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
+    func didLoadInitialCharacters() {
+        collectionView.reloadData()
+        spinner.stopAnimating()
+        collectionView.isHidden = false
+        UIView.animate(withDuration: 0.5) {
+            self.collectionView.alpha = 1
+        }
+       
     }
 }

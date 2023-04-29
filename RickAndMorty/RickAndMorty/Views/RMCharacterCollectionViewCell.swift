@@ -20,20 +20,25 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        
+       
         style()
         layout()
+        setupView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        setupView()
+    }
+    
     private func style() {
-        backgroundColor = .secondarySystemBackground
-        
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.textColor = .label
@@ -64,12 +69,21 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageView.image = nil
-        nameLabel.text = nil
-        statusLabel.text = nil
+    private func setupView() {
+        layer.cornerRadius = 8
+        layer.shadowColor = UIColor.label.cgColor
+        layer.cornerRadius = 4
+        layer.shadowOffset = CGSize(width: -4, height: 4)
+        layer.shadowOpacity = 0.3
+        backgroundColor = .secondarySystemBackground
     }
+    
+//    override func prepareForReuse() {
+//        super.prepareForReuse()
+//        imageView.image = nil
+//        nameLabel.text = nil
+//        statusLabel.text = nil
+//    }
     
     public func configure(with viewModel: RMCharacterCollectionViewCellViewModel) {
         nameLabel.text = viewModel.characterName
