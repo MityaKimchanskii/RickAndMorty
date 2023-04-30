@@ -26,6 +26,7 @@ extension RMCharacterViewController {
     
     func style() {
         view.backgroundColor = .systemBackground
+        characterListView.delegate = self
     }
     
     func layout() {
@@ -40,3 +41,12 @@ extension RMCharacterViewController {
     }
 }
 
+// MARK: - RMCharacterListViewDelegate
+extension RMCharacterViewController: RMCharacterListViewDelegate {
+    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelectCharacter character: RMCharacter) {
+        let viewModel = RMCharacterDetailViewViewModel(character: character)
+        let detailVC = RMCharacterDetailViewController(viewModel: viewModel)
+        detailVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+}

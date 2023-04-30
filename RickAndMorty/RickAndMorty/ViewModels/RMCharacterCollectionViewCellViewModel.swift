@@ -31,17 +31,20 @@ final class RMCharacterCollectionViewCellViewModel {
             return
         }
         
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            DispatchQueue.main.async {
-                guard let data, error == nil else {
-                    completion(.failure(error ?? URLError(.badServerResponse)))
-                    return
-                }
-                
-                completion(.success(data))
-            }
-        }.resume()
+        RMImageLoader.shared.downloadImage(url, completion: completion)
+    }
+}
+
+// MARK: - Hashable
+extension RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
+   
+    static func == (lhs: RMCharacterCollectionViewCellViewModel, rhs: RMCharacterCollectionViewCellViewModel) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(characterName)
+        hasher.combine(characterStatus)
+        hasher.combine(characterImageUrl)
     }
 }

@@ -8,8 +8,14 @@
 
 import UIKit
 
+protocol RMCharacterListViewDelegate: AnyObject {
+    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelectCharacter character: RMCharacter)
+}
+
 
 final class RMCharacterListView: UIView {
+    
+    public weak var delegate: RMCharacterListViewDelegate?
     
     private let viewModel = RMCharacterListViewViewModel()
     
@@ -47,7 +53,11 @@ extension RMCharacterListView {
         spinner.hidesWhenStopped = true
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(RMCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterCollectionViewCell.id)
+        collectionView.register(RMCharacterCollectionViewCell.self,
+                                forCellWithReuseIdentifier: RMCharacterCollectionViewCell.id)
+        collectionView.register(RMFooterLoadingCollectionReusableView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                withReuseIdentifier: RMFooterLoadingCollectionReusableView.id)
         collectionView.isHidden = true
         collectionView.alpha = 0
         
@@ -86,6 +96,16 @@ extension RMCharacterListView {
 }
 
 extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
+    func didLoadMoreCharacters(with newInexPaths: [IndexPath]) {
+        collectionView.performBatchUpdates {
+            self.collectionView.insertItems(at: newInexPaths)
+        }
+    }
+    
+    func didSelectCharacter(_ characrer: RMCharacter) {
+        delegate?.rmCharacterListView(self, didSelectCharacter: characrer)
+    }
+    
     func didLoadInitialCharacters() {
         collectionView.reloadData()
         spinner.stopAnimating()
@@ -93,6 +113,5 @@ extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
         UIView.animate(withDuration: 0.5) {
             self.collectionView.alpha = 1
         }
-       
     }
 }
