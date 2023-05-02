@@ -29,14 +29,14 @@ final class RMCharacterDetailViewViewModel {
         sections = [
             .photo(viewModel: .init(imageUrl: URL(string: character.image))),
             .information(viewModels: [
-                .init(value: character.status.text, title: "Status"),
-                .init(value: character.gender.rawValue, title: "Gender"),
-                .init(value: character.type, title: "Type"),
-                .init(value: character.species, title: "Species"),
-                .init(value: character.origin.name, title: "Origin"),
-                .init(value: character.location.name, title: "Location"),
-                .init(value: character.created, title: "Created"),
-                .init(value: "\(character.episode.count)", title: "Total Episodes")
+                .init(type: .status, value: character.status.text),
+                .init(type: .gender, value: character.gender.rawValue),
+                .init(type: .type, value: character.type),
+                .init(type: .species, value: character.species),
+                .init(type: .origin, value: character.origin.name),
+                .init(type: .location, value: character.location.name),
+                .init(type: .created, value: character.created),
+                .init(type: .episodeCount, value: "\(character.episode.count)")
             ]),
             .episodes(viewModels: character.episode.compactMap {
                 return RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: $0))
@@ -63,7 +63,7 @@ final class RMCharacterDetailViewViewModel {
     
     public func createInformationSectionLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0)))
-        item.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 1, bottom: 1, trailing: 1)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 6)
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(150)), subitems: [item, item])
         let section = NSCollectionLayoutSection(group: group)
         return section
