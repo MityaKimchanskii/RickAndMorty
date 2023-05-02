@@ -43,6 +43,7 @@
 		3BC21F4B29FB854F00D00357 /* RMCharacterListViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC21F4A29FB854F00D00357 /* RMCharacterListViewViewModel.swift */; };
 		3BC21F4D29FB85B000D00357 /* RMCharacterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC21F4C29FB85B000D00357 /* RMCharacterListView.swift */; };
 		3BC21F4F29FB8A7900D00357 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC21F4E29FB8A7900D00357 /* Extensions.swift */; };
+		3BC288F32A00CAD1000BD7F9 /* RMEpisodeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC288F22A00CAD1000BD7F9 /* RMEpisodeDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		3BC21F4A29FB854F00D00357 /* RMCharacterListViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterListViewViewModel.swift; sourceTree = "<group>"; };
 		3BC21F4C29FB85B000D00357 /* RMCharacterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterListView.swift; sourceTree = "<group>"; };
 		3BC21F4E29FB8A7900D00357 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		3BC288F22A00CAD1000BD7F9 /* RMEpisodeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMEpisodeDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				3BA7179E29FCCC7B0010F78C /* RMCharacterDetailViewController.swift */,
+				3BC288F22A00CAD1000BD7F9 /* RMEpisodeDetailViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				3BC21F3D29FB5A5500D00357 /* RMEndpoint.swift in Sources */,
 				3BC21F2C29FB447C00D00357 /* RMCharacter.swift in Sources */,
 				3BC21F3B29FB59AD00D00357 /* RMRequest.swift in Sources */,
+				3BC288F32A00CAD1000BD7F9 /* RMEpisodeDetailViewController.swift in Sources */,
 				3BA717A129FCCD690010F78C /* RMCharacterDetailView.swift in Sources */,
 				3BA7179C29FCA11E0010F78C /* RMCharacterCollectionViewCellViewModel.swift in Sources */,
 				3BC21F3129FB44FF00D00357 /* RMCharacterViewController.swift in Sources */,

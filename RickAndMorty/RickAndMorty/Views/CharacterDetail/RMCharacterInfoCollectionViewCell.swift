@@ -35,6 +35,7 @@ extension RMCharacterInfoCollectionViewCell {
         contentView.backgroundColor = .systemGray6
         contentView.layer.masksToBounds = true
         contentView.layer.cornerRadius = 8
+        contentView.layer.borderWidth = 1
         
         valueLabel.translatesAutoresizingMaskIntoConstraints = false
         valueLabel.font = .systemFont(ofSize: 18, weight: .medium)
@@ -85,5 +86,6 @@ extension RMCharacterInfoCollectionViewCell {
         iconImageView.tintColor = viewModel.tintColor
         titleLabel.textColor = viewModel.tintColor
         valueLabel.textColor = viewModel.tintColor
+        contentView.layer.borderColor = viewModel.tintColor.cgColor
     }
 }
