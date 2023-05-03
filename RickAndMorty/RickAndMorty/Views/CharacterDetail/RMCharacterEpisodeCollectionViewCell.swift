@@ -21,6 +21,7 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
         
         style()
         layout()
+        setupBorder()
     }
     
     required init?(coder: NSCoder) {
@@ -33,9 +34,6 @@ extension RMCharacterEpisodeCollectionViewCell {
     
     private func style() {
         contentView.backgroundColor = .systemGray5
-        contentView.layer.borderColor = UIColor.systemGray.cgColor
-        contentView.layer.borderWidth = 1
-        contentView.layer.cornerRadius = 8
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 8
@@ -53,6 +51,11 @@ extension RMCharacterEpisodeCollectionViewCell {
         episodeLabel.translatesAutoresizingMaskIntoConstraints = false
         episodeLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
+    }
+    
+    private func setupBorder() {
+        contentView.layer.borderWidth = 1
+        contentView.layer.cornerRadius = 8
     }
     
     private func layout() {
@@ -76,5 +79,6 @@ extension RMCharacterEpisodeCollectionViewCell {
             self?.episodeLabel.text = "Episode "+data.episode
         }
         viewModel.fetchEpisode()
+        contentView.layer.borderColor = viewModel.borderColor.cgColor
     }
 }
