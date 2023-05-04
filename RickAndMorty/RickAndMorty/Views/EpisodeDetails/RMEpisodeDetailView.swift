@@ -115,9 +115,7 @@ extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let sections = viewModel?.cellViewModels else {
-            fatalError("No viewModel")
-        }
+        guard let sections = viewModel?.cellViewModels else { fatalError("No viewModel") }
         let sectionType = sections[indexPath.section]
 
         switch sectionType {
@@ -146,6 +144,18 @@ extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        
+        guard let viewModel else { return }
+        let sections = viewModel.cellViewModels
+        let sectionType = sections[indexPath.section]
+
+        switch sectionType {
+        case .information:
+            break
+        case .characters:
+            guard let character = viewModel.character(at: indexPath.row) else { return }
+            delegate?.rmEpisodeDetailView(self, didSelect: character)
+        }
     }
 }
 
@@ -164,7 +174,7 @@ extension RMEpisodeDetailView {
     func createInfoLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init( widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(80)), subitems: [item])
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60)), subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
 
         return section
