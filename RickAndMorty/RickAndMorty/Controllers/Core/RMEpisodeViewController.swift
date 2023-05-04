@@ -18,13 +18,14 @@ class RMEpisodeViewController: UIViewController {
         
         style()
         layout()
+        addSearchButton()
     }
 }
 
 // MARK: - Extensions
 extension RMEpisodeViewController {
     
-    func style() {
+    private func style() {
         view.backgroundColor = .systemBackground
         title = "Episode"
         
@@ -32,7 +33,7 @@ extension RMEpisodeViewController {
         episodeListView.delegate = self
     }
     
-    func layout() {
+    private func layout() {
         view.addSubview(episodeListView)
         
         NSLayoutConstraint.activate([
@@ -41,6 +42,14 @@ extension RMEpisodeViewController {
             episodeListView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             episodeListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func addSearchButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
+    }
+    
+    @objc private func didTapSearch() {
+        
     }
 }
 

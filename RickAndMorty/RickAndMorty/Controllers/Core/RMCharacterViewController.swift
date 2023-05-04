@@ -18,18 +18,19 @@ final class RMCharacterViewController: UIViewController {
         
         style()
         layout()
+        addSearchButton()
     }
 }
 
 // MARK: - Extensions
 extension RMCharacterViewController {
     
-    func style() {
+    private func style() {
         view.backgroundColor = .systemBackground
         characterListView.delegate = self
     }
     
-    func layout() {
+    private func layout() {
         view.addSubview(characterListView)
         
         NSLayoutConstraint.activate([
@@ -38,6 +39,17 @@ extension RMCharacterViewController {
             characterListView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func addSearchButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
+    }
+    
+    @objc private func didTapSearch() {
+        let vc = RMSearchViewController(configuration: .init(type: .character))
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
 }
 

@@ -15,22 +15,31 @@ final class RMLocationViewController: UIViewController {
         
         style()
         layout()
+        addSearchButton()
     }
 }
 
 // MARK: - Extensions
 extension RMLocationViewController {
     
-    func style() {
+    private func style() {
         view.backgroundColor = .systemBackground
     }
     
-    func layout() {
+    private func layout() {
         
         
         NSLayoutConstraint.activate([
            
         ])
+    }
+    
+    private func addSearchButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
+    }
+    
+    @objc private func didTapSearch() {
+        
     }
 }
 
