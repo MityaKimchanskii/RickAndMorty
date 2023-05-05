@@ -39,6 +39,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 8
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.textColor = .label

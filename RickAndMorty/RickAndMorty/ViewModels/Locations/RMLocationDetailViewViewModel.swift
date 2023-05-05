@@ -17,7 +17,7 @@ final class RMLocationDetailViewViewModel {
     private let endpointUrl: URL?
     
     public weak var delegate: RMLocationDetailViewViewModelDelegate?
-
+    
     public private(set) var cellViewModels: [SectionType] = []
     
     private var dataTuple: (location: RMLocation, characters: [RMCharacter])? {
@@ -26,15 +26,18 @@ final class RMLocationDetailViewViewModel {
             delegate?.didFetchLocationDetails()
         }
     }
-
+    
     enum SectionType {
         case information(viewModels: [RMEpisodeInfoCollectionViewCellViewModel])
         case characters(viewModel: [RMCharacterCollectionViewCellViewModel])
     }
-
+    
     init(endpointUrl: URL?) {
         self.endpointUrl = endpointUrl
     }
+}
+
+extension RMLocationDetailViewViewModel {
 
     public func character(at index: Int) -> RMCharacter? {
         guard let dataTuple = dataTuple else { return nil }

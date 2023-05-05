@@ -50,7 +50,9 @@ extension RMLocationViewController {
     }
     
     @objc private func didTapSearch() {
-        
+        let vc = RMSearchViewController(configuration: .init(type: .location))
+        navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
