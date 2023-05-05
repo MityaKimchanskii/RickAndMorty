@@ -19,6 +19,7 @@ final class RMLocationViewController: UIViewController {
         style()
         layout()
         addSearchButton()
+        viewModel.fetchLocations()
     }
 }
 
@@ -27,6 +28,7 @@ extension RMLocationViewController {
     
     private func style() {
         view.backgroundColor = .systemBackground
+        viewModel.delegate = self
         
         primaryView.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -51,3 +53,8 @@ extension RMLocationViewController {
     }
 }
 
+extension RMLocationViewController: RMLocationViewViewModelDelegate {
+    func didFetchInitialLocations() {
+        primaryView.configure(with: viewModel)
+    }
+}

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class RMLocationView: UIView {
+final class RMLocationView: UIView {
     
     private var viewModel: RMLocationViewViewModel? {
         didSet {
@@ -44,9 +44,11 @@ extension RMLocationView {
         backgroundColor = .systemBackground
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(RMLocationTableViewCell.self, forCellReuseIdentifier: RMLocationTableViewCell.id)
         tableView.alpha = 0
         tableView.isHidden = true
+        tableView.delegate = self
+        tableView.dataSource = self
         
         spinner.translatesAutoresizingMaskIntoConstraints = false
         spinner.hidesWhenStopped = true
@@ -71,5 +73,25 @@ extension RMLocationView {
     
     public func configure(with viewModel: RMLocationViewViewModel) {
         self.viewModel = viewModel
+    }
+}
+
+extension RMLocationView: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel?.cellViewModels.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cellViewModels = viewModel?.cellViewModels else { fatalError() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RMLocationTableViewCell.id, for: indexPath) as? RMLocationTableViewCell else {
+            return UITableViewCell()
+        }
+        let cellViewModel = cellViewModels[indexPath.row]
+        cell.textLabel?.text = cellViewModel.name
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
