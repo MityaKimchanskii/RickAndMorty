@@ -9,7 +9,14 @@
 import Foundation
 import UIKit
 
+protocol RMLocationViewDelegate: AnyObject {
+    func rmLocationView(_ locationView: RMLocationView, didSelect location: RMLocation)
+}
+
+
 final class RMLocationView: UIView {
+    
+    public weak var delegate: RMLocationViewDelegate?
     
     private var viewModel: RMLocationViewViewModel? {
         didSet {
@@ -22,7 +29,7 @@ final class RMLocationView: UIView {
         }
     }
     
-    private let tableView = UITableView()
+    private let tableView = UITableView(frame: .zero, style: .grouped)
     private let spinner = UIActivityIndicatorView()
     
     override init(frame: CGRect) {
@@ -87,11 +94,14 @@ extension RMLocationView: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         let cellViewModel = cellViewModels[indexPath.row]
-        cell.textLabel?.text = cellViewModel.name
+        cell.configure(with: cellViewModel)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let locationModel = viewModel?.location(at: indexPath.row) else { return }
+        delegate?.rmLocationView(self, didSelect: locationModel)
     }
 }

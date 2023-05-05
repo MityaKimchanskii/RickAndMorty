@@ -14,5 +14,5 @@ struct RMLocation: Codable {
     let dimension: String
     let residents: [String]
     let url: String
-//    let crated: String
+    let created: String
 }

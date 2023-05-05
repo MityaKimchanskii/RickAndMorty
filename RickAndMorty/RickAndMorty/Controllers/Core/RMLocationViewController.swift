@@ -31,6 +31,7 @@ extension RMLocationViewController {
         viewModel.delegate = self
         
         primaryView.translatesAutoresizingMaskIntoConstraints = false
+        primaryView.delegate = self
     }
     
     private func layout() {
@@ -56,5 +57,13 @@ extension RMLocationViewController {
 extension RMLocationViewController: RMLocationViewViewModelDelegate {
     func didFetchInitialLocations() {
         primaryView.configure(with: viewModel)
+    }
+}
+
+extension RMLocationViewController: RMLocationViewDelegate {
+    func rmLocationView(_ locationView: RMLocationView, didSelect location: RMLocation) {
+        let vc = RMLocationDetailViewController(location: location)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
