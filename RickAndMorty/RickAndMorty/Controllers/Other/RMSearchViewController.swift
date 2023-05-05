@@ -8,7 +8,7 @@
 import UIKit
 
 
-class RMSearchViewController: UIViewController {
+final class RMSearchViewController: UIViewController {
     
     struct Configuration {
         enum `Type` {
@@ -31,10 +31,14 @@ class RMSearchViewController: UIViewController {
         let type: `Type`
     }
     
-    private let configuration: Configuration
+    private let viewModel: RMSearchViewViewModel
+    
+    private let searchView: RMSearchView
     
     init(configuration: Configuration) {
-        self.configuration = configuration
+        let viewModel = RMSearchViewViewModel(configuration: configuration)
+        self.viewModel = viewModel
+        self.searchView = RMSearchView(frame: .zero, viewModel: viewModel)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,16 +60,28 @@ class RMSearchViewController: UIViewController {
 extension RMSearchViewController {
     
     private func style() {
-        title = configuration.type.title
+        title = viewModel.configuration.type.title
         view.backgroundColor = .systemBackground
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(didTapExecuteSearch))
+        
+        searchView.translatesAutoresizingMaskIntoConstraints = false
+        
+        
     }
     
     private func layout() {
-        
+        view.addSubview(searchView)
         
         NSLayoutConstraint.activate([
-            
+            searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            searchView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    @objc private func didTapExecuteSearch() {
+//        viewModel.executeSearch()
     }
 }
 
