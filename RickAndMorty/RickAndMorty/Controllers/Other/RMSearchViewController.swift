@@ -54,6 +54,11 @@ final class RMSearchViewController: UIViewController {
         style()
         layout()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchView.presentKeyboard()
+    }
 }
 
 // MARK: - Extensions
@@ -65,8 +70,7 @@ extension RMSearchViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(didTapExecuteSearch))
         
         searchView.translatesAutoresizingMaskIntoConstraints = false
-        
-        
+        searchView.delegate = self
     }
     
     private func layout() {
@@ -85,3 +89,8 @@ extension RMSearchViewController {
     }
 }
 
+extension RMSearchViewController: RMSearchViewDelegate {
+    func rmSearchView(_ searchView: RMSearchView, didSelectOption option: RMSearchInputViewViewModel.DynamicOption) {
+        print("Hello Dmitrii Kim iOS Developer!")
+    }
+}
