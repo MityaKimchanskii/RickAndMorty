@@ -17,6 +17,8 @@ final class RMSearchInputView: UIView {
     
     private let searchBar = UISearchBar()
     
+    private var stackView: UIStackView?
+    
     private var viewModel: RMSearchInputViewViewModel? {
         didSet {
             guard let viewModel, viewModel.hasDynamicOptions else { return }
@@ -58,7 +60,7 @@ extension RMSearchInputView {
     }
     
     private func createOptionSelectionViews(options: [RMSearchInputViewViewModel.DynamicOption]) {
-        let stackView = createOptionStackView()
+        self.stackView = createOptionStackView()
         
         for x in 0..<options.count {
             let option = options[x]
@@ -70,7 +72,7 @@ extension RMSearchInputView {
             button.tag = x
             button.addTarget(self, action: #selector(didTapButton(_:)), for: .primaryActionTriggered)
             
-            stackView.addArrangedSubview(button)
+            stackView?.addArrangedSubview(button)
         }
     }
     
@@ -105,5 +107,15 @@ extension RMSearchInputView {
     
     public func presentKeyboard() {
         searchBar.becomeFirstResponder()
+    }
+    
+    public func update(option: RMSearchInputViewViewModel.DynamicOption, value: String) {
+        guard let buttons = stackView?.arrangedSubviews as? [UIButton],
+            let allOptions = viewModel?.options,
+            let index = allOptions.firstIndex(of: option) else { return }
+        
+        let button: UIButton = buttons[index]
+        button.setTitle(value.uppercased(), for: .normal)
+        button.setTitleColor(.white, for: .normal)
     }
 }
