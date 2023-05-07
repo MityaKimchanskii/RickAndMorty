@@ -49,8 +49,6 @@ final class RMSearchViewViewModel {
     
     private func makeSearchAPICall<T: Codable>(_ type: T.Type, request: RMRequest) {
         RMService.shared.execute(request, expecting: type) { [weak self] result in
-            // Notify view of results, no results, or error
-
             switch result {
             case .success(let model):
                 self?.processSearchResults(model: model)
@@ -62,8 +60,10 @@ final class RMSearchViewViewModel {
     }
     
     private func processSearchResults(model: Codable) {
+        
         var resultsVM: RMSearchResultType?
         var nextUrl: String?
+        
         if let characterResults = model as? RMGetAllCharactersResponse {
             resultsVM = .characters(characterResults.results.compactMap({
                 return RMCharacterCollectionViewCellViewModel(
@@ -73,16 +73,16 @@ final class RMSearchViewViewModel {
                 )
             }))
             nextUrl = characterResults.info.next
-        }
-        else if let episodesResults = model as? RMGetAllEpisodesResponse {
+            
+        } else if let episodesResults = model as? RMGetAllEpisodesResponse {
             resultsVM = .episodes(episodesResults.results.compactMap({
                 return RMCharacterEpisodeCollectionViewCellViewModel(
                     episodeDataUrl: URL(string: $0.url)
                 )
             }))
             nextUrl = episodesResults.info.next
-        }
-        else if let locationsResults = model as? RMGetAllLocationsResponse {
+            
+        } else if let locationsResults = model as? RMGetAllLocationsResponse {
             resultsVM = .locations(locationsResults.results.compactMap({
                 return RMLocationTableViewCellViewModel(location: $0)
             }))
@@ -94,7 +94,6 @@ final class RMSearchViewViewModel {
             let vm = RMSearchResultViewModel(results: results, next: nextUrl)
             self.searchResultHandler?(vm)
         } else {
-            // fallback error
             handleNoResults()
         }
     }
@@ -115,5 +114,13 @@ final class RMSearchViewViewModel {
     
     public func registerOptionChangeBlock(_ block: @escaping ((RMSearchInputViewViewModel.DynamicOption, String)) -> Void) {
         self.optionMapUpdateBlock = block
+    }
+    
+    public func registerSearchResultHandler(_ block: @escaping (RMSearchResultViewModel) -> Void) {
+        self.searchResultHandler = block
+    }
+    
+    public func registerNoResultsHandler(_ block: @escaping () -> Void) {
+        self.noResultsHandler = block
     }
 }

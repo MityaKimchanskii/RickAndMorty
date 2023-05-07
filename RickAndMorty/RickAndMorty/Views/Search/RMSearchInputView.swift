@@ -9,6 +9,8 @@ import UIKit
 
 protocol RMSearchInputViewDelegate: AnyObject {
     func rmSearchInputView(_ inputView: RMSearchInputView, didSelectOption option: RMSearchInputViewViewModel.DynamicOption)
+    func rmSearchInputView(_ inputView: RMSearchInputView, didChangeSearchText text: String)
+    func rmSearchInputViewDedTapSearchKeyboardButton(_ inputView: RMSearchInputView)
 }
 
 final class RMSearchInputView: UIView {
@@ -45,6 +47,7 @@ extension RMSearchInputView {
         backgroundColor = .systemBackground
         
         searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.delegate = self
         searchBar.placeholder = "Search"
     }
     
@@ -117,5 +120,16 @@ extension RMSearchInputView {
         let button: UIButton = buttons[index]
         button.setTitle(value.uppercased(), for: .normal)
         button.setTitleColor(.white, for: .normal)
+    }
+}
+
+extension RMSearchInputView: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        delegate?.rmSearchInputView(self, didChangeSearchText: searchText)
+    }
+    
+    func searchBarButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        delegate?.rmSearchInputViewDedTapSearchKeyboardButton(self)
     }
 }
