@@ -123,4 +123,9 @@ final class RMSearchViewViewModel {
     public func registerNoResultsHandler(_ block: @escaping () -> Void) {
         self.noResultsHandler = block
     }
+    
+    public func loctionSearchResult(at index: Int) -> RMLocation? {
+        guard let searchModel = searchResultModel as? RMGetAllLocationsResponse else { return nil }
+        return searchModel.results[index]
+    }
 }

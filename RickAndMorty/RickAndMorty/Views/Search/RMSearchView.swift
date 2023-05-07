@@ -9,6 +9,7 @@ import UIKit
 
 protocol RMSearchViewDelegate: AnyObject {
     func rmSearchView(_ searchView: RMSearchView, didSelectOption option: RMSearchInputViewViewModel.DynamicOption)
+    func rmSearchView(_ searchView: RMSearchView, didSelect location: RMLocation)
 }
 
 final class RMSearchView: UIView {
@@ -25,17 +26,7 @@ final class RMSearchView: UIView {
         
         style()
         layout()
-        
-        viewModel.registerOptionChangeBlock { tuple in
-            print(String(describing: tuple))
-            self.searchInputView.update(option: tuple.0, value: tuple.1)
-        }
-        
-        searchInputView.delegate = self
-
         setUpHandlers(viewModel: viewModel)
-
-//        resultsView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -47,9 +38,16 @@ extension RMSearchView {
     private func style() {
         backgroundColor = .systemBackground
         
+        viewModel.registerOptionChangeBlock { tuple in
+            print(String(describing: tuple))
+            self.searchInputView.update(option: tuple.0, value: tuple.1)
+        }
+        
         searchInputView.configure(with: .init(type: viewModel.configuration.type))
         searchInputView.translatesAutoresizingMaskIntoConstraints = false
         searchInputView.delegate = self
+        
+        resultsView.delegate = self
         
         noResultsView.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -128,5 +126,12 @@ extension RMSearchView: RMSearchInputViewDelegate {
     
     func rmSearchInputViewDedTapSearchKeyboardButton(_ inputView: RMSearchInputView) {
         viewModel.executeSearch()
+    }
+}
+
+extension RMSearchView: RMSearchResultsViewDelegate {
+    func rmSearchResultsView(_ resultsView: RMSearchResultsView, didTapLocationAt index: Int) {
+        guard let locationModel = viewModel.loctionSearchResult(at: index) else { return }
+        delegate?.rmSearchView(self, didSelect: locationModel)
     }
 }
