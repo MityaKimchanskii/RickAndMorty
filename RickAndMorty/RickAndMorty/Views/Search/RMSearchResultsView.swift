@@ -74,8 +74,8 @@ extension RMSearchResultsView {
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            tableView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 1),
+            trailingAnchor.constraint(equalToSystemSpacingAfter: tableView.trailingAnchor, multiplier: 1),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             collectionView.topAnchor.constraint(equalTo: topAnchor),
@@ -181,7 +181,7 @@ extension RMSearchResultsView: UICollectionViewDataSource, UICollectionViewDeleg
             return CGSize(width: (UIScreen.main.bounds.width-30)/2, height: ((UIScreen.main.bounds.width-30)/2)*1.5)
         }
         
-        return CGSize(width: collectionView.frame.width, height: 100)
+        return CGSize(width: collectionView.frame.width-16, height: 100)
     }
     
 }
