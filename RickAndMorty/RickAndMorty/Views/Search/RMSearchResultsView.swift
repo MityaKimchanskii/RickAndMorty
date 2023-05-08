@@ -178,7 +178,7 @@ extension RMSearchResultsView: UICollectionViewDataSource, UICollectionViewDeleg
         let currentViewModel = collectionViewCellViewModels[indexPath.row]
         
         if currentViewModel is RMCharacterCollectionViewCellViewModel {
-            return CGSize(width: (UIScreen.main.bounds.width-30)/2, height: ((UIScreen.main.bounds.width-30)/2)*1.5)
+            return CGSize(width: (collectionView.bounds.width-30)/2, height: ((collectionView.bounds.width-30)/2)*1.5)
         }
         
         return CGSize(width: collectionView.frame.width-16, height: 100)

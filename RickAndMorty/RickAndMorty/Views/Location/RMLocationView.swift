@@ -6,13 +6,12 @@
 //
 
 
-import Foundation
 import UIKit
+
 
 protocol RMLocationViewDelegate: AnyObject {
     func rmLocationView(_ locationView: RMLocationView, didSelect location: RMLocation)
 }
-
 
 final class RMLocationView: UIView {
     
